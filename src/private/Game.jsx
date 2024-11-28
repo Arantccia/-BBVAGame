@@ -42,7 +42,6 @@ const Game = () => {
 
     if (numero === numberPlayed) {
       setPuntos(puntos + puntosPorNivel[dificultad]);
-  /*     generarTablero(); */
     } else {
       alert(`¡Has fallado! Tu puntuación final es: ${puntos}`);
       setPuntos(0);
@@ -67,20 +66,17 @@ const Game = () => {
             <option value="alto">Alto</option>
           </select>
         </label>
+        <div className="card-grid">
+        {tablero.map((numero, i) => (
+           <div key={numero + i} className="card" onClick={() => handleSeleccion(numero)}>
+           <p>{mostrarNumeros ? numero : "?"}</p>
+         </div>
+        ))}
+      </div>
         <button onClick={/* generarTablero */ startGame}>Iniciar juego</button>
       </div>
 
-      <div className="tablero">
-        {tablero.map((numero, i) => (
-          <button
-            key={i}
-            onClick={() => handleSeleccion(numero, i)}
-            className={mostrarNumeros ? "mostrar" : ""}
-          >
-            {mostrarNumeros ? numero : ""}
-          </button>
-        ))}
-      </div>
+ 
     </div>
   );
 };
