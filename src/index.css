@@ -39,7 +39,6 @@
 .card {
   align-content: center;
   align-items: center;
-  background-color: white;
   border-radius: 10px;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.03);
   display: flex;
@@ -63,6 +62,16 @@
   margin-top: 5px;
   padding: 5px 20px 0px 20px;
   text-align: center;
+}
+.card-incorrect {
+  background-color: #e76a7d;
+  p{background-color: #e76a7d;}
+}
+.card-correct {
+  background-color: #028484;
+  p {
+    background-color: #028484;
+  }
 }
 
 input {

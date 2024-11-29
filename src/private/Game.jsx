@@ -51,18 +51,20 @@ const Game = () => {
   const handleShowNumbers = () => {
     return tablero?.map((item) => {
       let itemCard = item;
+      let classed = "card";
       if (!showNumbers) {
         itemCard = "?";
       }
       if (!showNumbers && item === numeroBuscado && changeQuestion) {
         itemCard = item;
+        classed = `card ${classCard}`;
       }
       return (
         <StandarCard
           key={item}
           itemCard={itemCard}
           onClick={() => handleSeleccion(item)}
-          classCard={classCard}
+          classCard={classed}
         />
       );
     });
