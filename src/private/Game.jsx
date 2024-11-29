@@ -1,10 +1,8 @@
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Game = () => {
-  const location = useLocation();
- /*  const nombre = location.state?.nombre || "Jugador"; */
- const nombre = localStorage.getItem(name) || "Jugador";
+
+  const nombre = localStorage.getItem("name") || "Jugador";
   const [dificultad, setDificultad] = useState("bajo");
   const [numberPlayed, setNumberPlayed] = useState(0);
   const [puntos, setPuntos] = useState(0);
@@ -15,6 +13,7 @@ const Game = () => {
 
   const tiempos = { bajo: 10000, medio: 5000, alto: 2000 };
   const puntosPorNivel = { bajo: 10, medio: 20, alto: 30 };
+
 
   useEffect(() => {
     const levels = { low: 10, medium: 5, high: 2 };
@@ -75,8 +74,6 @@ const Game = () => {
 
       <h1 className="points" >Points: {puntos}</h1>
       {numeroBuscado ?  <h3>¿ where is the number:  {numberPlayed} ?</h3> : <h3>Memorize the cardas</h3>}
-      {/* <h3>Memorize the cardas</h3>
-      <h3>¿where is the number:  {numberPlayed}?</h3> */}
       <div>
         <div className="card-grid">
           {tablero.map((numero, i) => (

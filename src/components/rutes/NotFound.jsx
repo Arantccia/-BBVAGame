@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Route, Routes } from "react-router-dom";
+import Login from "../../public/login";
 
 
 const NotFound = ({ children }) => {
   return (
     <Routes>
       {children}
-      <Route path="*" element={<Navigate to="/404" />} />
-      <Route path="/404" element={<h1>pagina no encontrada</h1>} />
+      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 };
