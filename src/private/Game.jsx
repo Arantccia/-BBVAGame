@@ -7,6 +7,7 @@ const Game = () => {
   const [tablero, setTablero] = useState([]);
   const [numeroBuscado, setNumeroBuscado] = useState(null);
   const [showNumbers, setShowNumbers] = useState(false);
+
  
   const tiempos = { bajo: 10000, medio: 5000, alto: 2000 };
   const puntosPorNivel = { bajo: 10, medio: 20, alto: 30 };
@@ -23,9 +24,14 @@ const Game = () => {
   };
 
   const startGame = () => {
+    setTablero((previusCards) => {
+      if (previusCards.length) return [];
+      return giveMeRandomNumber();
+    });
+    setNumeroBuscado(() => 0);
+    setShowNumbers(false);
     const numberCards = giveMeRandomNumber();
-    setTablero(numberCards);
-    setNumeroBuscado(numberCards[Math.floor(Math.random() * 9)]);
+    setNumeroBuscado(() => numberCards[Math.floor(Math.random() * 9)]);
     setShowNumbers(true);
     setTimeout(() => setShowNumbers(false), tiempos[dificultad]);
   };
@@ -64,7 +70,7 @@ const Game = () => {
       </nav>
 
       <h1 className="points">Points: {puntos}</h1>
-      {numeroBuscado ? (
+      {tablero.length ? (
         <h3>¿ where is the number: {numeroBuscado} ?</h3>
       ) : (
         <h3>Memorize the cardas</h3>
