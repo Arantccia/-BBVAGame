@@ -14,9 +14,9 @@ const Login = () => {
     //todo: logic to send data & validatións login
     if (!name) return;
     if (name !== ""  && name.length > 2) {
-      console.log("if", name);
       localStorage.setItem("token", true);
       localStorage.setItem("name", name);
+      localStorage.setItem("point", 0);
       onResetForm();
       navigate(`${AppRoutes.private.root}`);
     }

@@ -1,20 +1,35 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import StandarCard from "./components/StandarCard";
 
 const Game = () => {
   const nombre = localStorage.getItem("name") || "Jugador";
-  const [dificultad, setDificultad] = useState("bajo");
-  const [puntos, setPuntos] = useState(0);
-  const [tablero, setTablero] = useState([]);
-  const [numeroBuscado, setNumeroBuscado] = useState(null);
+  const initialPoints = localStorage.getItem("point") || 0;
+  const [difficulty, setDifficulty] = useState("bajo");
+  const [points, setPoints] = useState(initialPoints);
+  const [board, setBoard] = useState([]);
+  const [targetNumber, setTargetNumber] = useState(null);
   const [showNumbers, setShowNumbers] = useState(false);
-  const [changeQuestion, setChangeQuestion] = useState(false);
-  const [classCard, setClassCard] = useState('')
+/*   const [changeQuestion, setChangeQuestion] = useState(false); */
+  const [cardStatuses, setCardStatuses] = useState({});
 
   const tiempos = { bajo: 10000, medio: 5000, alto: 2000 };
   const puntosPorNivel = { bajo: 10, medio: 20, alto: 30 };
 
-  // Función para generar un arreglo de números aleatorios entre 1 y 9
+  const timeoutRef = useRef(null);
+
+  const clearExistingTimeouts = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      clearExistingTimeouts();
+    };
+  }, [difficulty]);
+
   const giveMeRandomNumber = () => {
     const numbers = Array.from({ length: 9 }, (_, i) => i + 1);
     for (let i = numbers.length - 1; i > 0; i--) {
@@ -25,46 +40,53 @@ const Game = () => {
   };
 
   const startGame = () => {
-    setTablero(() => giveMeRandomNumber());
-    setNumeroBuscado(() => 0);
-    setShowNumbers(false);
-    setChangeQuestion(false);
-    const numberCards = giveMeRandomNumber();
-    setNumeroBuscado(() => numberCards[Math.floor(Math.random() * 9)]);
+    clearExistingTimeouts();
+    const newBoard = giveMeRandomNumber();
+    const newtarget = newBoard[Math.floor(Math.random() * 9)];
+    setBoard(() => newBoard);
+    setTargetNumber(newtarget);
     setShowNumbers(true);
-    setTimeout(() => setShowNumbers(false), tiempos[dificultad]);
+    setCardStatuses({});
+    timeoutRef.current = setTimeout(
+      () => setShowNumbers(false),
+      tiempos[difficulty]
+    );
   };
 
-  const handleSeleccion = (numero) => {
-    if (numero === numeroBuscado) {
-      setChangeQuestion(true);
-      setPuntos(puntos + puntosPorNivel[dificultad]);
-      setClassCard('card-correct')
+  const handleSeleccion = (numero, i) => {
+    clearExistingTimeouts();
+    const isCorrect = numero === targetNumber;
+
+    setCardStatuses((prev) => ({
+      ...prev,
+      [i]: isCorrect ? "card-correct" : "card-incorrect",
+    }));
+
+    if (isCorrect) {
+      setPoints((prev) => prev + puntosPorNivel[difficulty]);
+      timeoutRef.current = setTimeout(startGame, 2000);
     } else {
-      setClassCard('card-incorrect')
-      setChangeQuestion(true);
-      setPuntos(0);
-      setTimeout(() => setTablero([]), 2000);
+      setPoints(0);
+      timeoutRef.current = setTimeout(() => setBoard([]), 2000);
     }
   };
   //TODO: cambiar por el componente cardMap
   const handleShowNumbers = () => {
-    return tablero?.map((item) => {
-      let itemCard = item;
-      let classed = "card";
-      if (!showNumbers) {
-        itemCard = "?";
+    return board?.map((item, i) => {
+      let displayValue = showNumbers ? item : "?";
+      let cardClass = "card";
+
+      if (cardStatuses[i]) {
+        cardClass = `card ${cardStatuses[i]}`;
+        displayValue = item
       }
-      if (!showNumbers && item === numeroBuscado && changeQuestion) {
-        itemCard = item;
-        classed = `card ${classCard}`;
-      }
+
       return (
         <StandarCard
           key={item}
-          itemCard={itemCard}
-          onClick={() => handleSeleccion(item)}
-          classCard={classed}
+          itemCard={displayValue}
+          onClick={() => handleSeleccion(item, i)}
+          classCard={cardClass}
         />
       );
     });
@@ -78,8 +100,8 @@ const Game = () => {
         <div className="navbar-select">
           <label htmlFor="">label:</label>
           <select
-            value={dificultad}
-            onChange={(e) => setDificultad(e.target.value)}
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
           >
             <option value="bajo">Bajo</option>
             <option value="medio">Medio</option>
@@ -92,18 +114,19 @@ const Game = () => {
   return (
     <div>
       {handleNavbar()}
-      <h1 className="points">Points: {puntos}</h1>
-      {tablero.length ? (
-        <h3>¿ where is the number: {numeroBuscado} ?</h3>
+      <h1 className="points">Points: {points}</h1>
+      {board.length ? (
+        <h3>¿ where is the number: {targetNumber} ?</h3>
       ) : (
         <h3>Memorize the cardas</h3>
       )}
       <div>
         {/* todo: cambiar por el componente card */}
         <div className="card-grid">{handleShowNumbers()}</div>
-        <button onClick={startGame}>
-          {tablero.length <= 0 ? "play" : "continue"}
+       <button onClick={startGame}>
+          {board.length <= 0 ? "play" : "continue"}
         </button>
+        
       </div>
     </div>
   );
