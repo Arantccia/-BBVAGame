@@ -1,3 +1,41 @@
+.points{
+  text-align: end;
+  margin-right: 20px;
+}
+.navbar{
+  background-color: #004481;
+  color: white;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.navbar-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.navbar-name {
+  justify-self: start;
+}
+
+.navbar-select {
+  justify-self: end;
+}
+
+.navbar-select select {
+
+  background-color: #004481;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 10px;
+  border-bottom: 1px solid white;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
 .card {
   align-content: center;
   align-items: center;
@@ -8,9 +46,9 @@
   flex-direction: column;
   height: 0%;  
   justify-content: center;
-  margin-bottom: 20px;
   margin-right: 20px;
   overflow: hidden;
+  height: 50%;
 }
 .card-grid {
   display: grid;
@@ -27,6 +65,22 @@
   text-align: center;
 }
 
+input {
+  border: none;
+  border-bottom: 1px solid #004481;
+  font-size: 1rem;
+  padding: 0.6em 1.2em;
+  margin-top: 20px;
+  width: 50%;
+}
+
+input:focus {
+  outline: none;
+  appearance: none;
+}
+
+
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -34,12 +88,14 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #004481;
+  color: white;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-top: 20px;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #1973b8;;
 }
 button:focus,
 button:focus-visible {
@@ -54,7 +110,5 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
-    background-color: #f9f9f9;
-  }
+
 }
