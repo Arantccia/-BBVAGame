@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { BrowserRouter, Navigate, Route } from "react-router-dom";
 import Login from "./public/Login";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/rutes/NotFound";
 import { PrivateGuard } from "./guards/PrivateGuard";
 import { PrivateRoutes } from "./private/PrivateRoutes"; 
 

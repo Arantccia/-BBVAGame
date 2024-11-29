@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "../../public/login";
+import Login from "../../public/Login";
 
 
 const NotFound = ({ children }) => {

@@ -1,6 +1,6 @@
 import { Navigate, Route } from "react-router-dom";
 import { AppRoutes } from "../AppRouter";
-import NotFound from "../components/NotFound.jsx";
+import NotFound from "../components/rutes/NotFound";
 
 
 
