@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 
-const StandarCard = ({ itemCard }) => {
+const StandarCard = ({ itemCard, onClick, classCard }) => {
+  console.log(classCard);
   return (
-    <div className="card">
-      <p>{itemCard ? itemCard : ""}</p>
+    <div className="card" onClick={onClick}>
+      <p>{itemCard}</p>
     </div>
   );
 };
